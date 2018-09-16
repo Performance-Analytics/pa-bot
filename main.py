@@ -4,6 +4,7 @@ from discord.ext import commands
 import math
 
 
+# Add bot key here.
 bot_key: str = None
 
 bot = commands.Bot(command_prefix=",", description="Performance Analytics bot")
