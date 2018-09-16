@@ -4,11 +4,19 @@ from discord.ext import commands
 import math
 
 
+bot_key: str = None
+
 bot = commands.Bot(command_prefix=",", description="Performance Analytics bot")
 
 
-def say(message, syntax_highlight: str = ""):
-    return bot.say("```{0}\n{1}\n```".format(syntax_highlight, message))
+def say(message, code_formatting: bool = True, syntax_highlight: str = ""):
+
+    if code_formatting:
+        to_send = "```{0}\n{1}\n```".format(syntax_highlight, message)
+    else:
+        to_send = message
+
+    return bot.say(to_send)
 
 
 @bot.event
@@ -122,7 +130,7 @@ async def req(reps_performed: int, reps_possible: int):
 @bot.command(description="Get Performance Analytics resources.")
 async def resources():
 
-    await say("https://drive.google.com/open?id=1Mk_Wutq9e0dh0Srm1KrDT9aNFlfdd76G")
+    await say("https://drive.google.com/open?id=1Mk_Wutq9e0dh0Srm1KrDT9aNFlfdd76G", code_formatting=False)
 
 
 @bot.command(description="Calculate Volume-Fatigue Index.")
@@ -180,4 +188,4 @@ async def wilks(bodyweight: float, weight_lifted: float, kg: bool = True, male: 
 
 
 if __name__ == "__main__":
-    bot.run("Enter bot key here.")
+    bot.run(bot_key)
