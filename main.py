@@ -88,7 +88,7 @@ async def inol(reps: int, intensity: float):
     await say("INOL: {0}".format(result))
 
 
-@bot.command(description"List Dr. Steven Gundry's 'The Plant Paradox' Shopping List.")
+@bot.command(description="List Dr. Steven Gundry's 'The Plant Paradox' Shopping List.")
 async def lectin_list():
     await say("""
         # Lectin List
