@@ -55,6 +55,13 @@ async def calc(*instructions):
             elif instruction == "abs":
                 arg1 = stack.pop()
                 stack.append(abs(arg1))
+            elif instruction == "sum":
+                stack = [sum(stack)]
+            elif instruction == "product":
+                result = 1
+                for element in stack:
+                    result *= element
+                stack = [result]
             else:
                 stack.append(float(instruction))
 
