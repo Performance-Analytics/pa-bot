@@ -55,6 +55,13 @@ async def calc(*instructions):
             elif instruction == "abs":
                 arg1 = stack.pop()
                 stack.append(abs(arg1))
+            elif instruction == "sum":
+                stack = [sum(stack)]
+            elif instruction == "product":
+                result = 1
+                for element in stack:
+                    result *= element
+                stack = [result]
             else:
                 stack.append(float(instruction))
 
@@ -79,6 +86,12 @@ async def inol(reps: int, intensity: float):
     result = reps / ((1 - intensity) * 100)
 
     await say("INOL: {0}".format(result))
+
+
+@bot.command(description="Link Dr. Steven Gundry's 'The Plant Paradox' Shopping List.")
+async def lectin_list():
+
+    await say("https://gundrymd.com/wp-content/pdf/Plant-Paradox-Shopping-LIst.pdf", code_formatting=False)
 
 
 @bot.command(description="""
@@ -132,6 +145,12 @@ async def req(reps_performed: int, reps_possible: int):
 async def resources():
 
     await say("https://drive.google.com/open?id=1Mk_Wutq9e0dh0Srm1KrDT9aNFlfdd76G", code_formatting=False)
+
+
+@bot.command(description="Link to bot source code.")
+async def source():
+
+    await say("https://github.com/performance-analytics/pa-bot", code_formatting=False)
 
 
 @bot.command(description="Calculate Volume-Fatigue Index.")
