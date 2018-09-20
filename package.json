@@ -25,6 +25,7 @@
     "@types/node": "^10.10.1"
   },
   "dependencies": {
-    "discord.js": "^11.4.2"
+    "discord.js": "^11.4.2",
+    "prompt": "^1.0.0"
   }
 }
