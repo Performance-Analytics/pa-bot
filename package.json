@@ -1,0 +1,30 @@
+{
+  "name": "pa-bot",
+  "version": "1.0.0",
+  "description": "Performance Analytics Discord Bot",
+  "main": "dest/index.js",
+  "scripts": {
+    "start": "node dest/index.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/performance-analytics/pa-bot.git"
+  },
+  "keywords": [
+    "bot",
+    "discord"
+  ],
+  "author": "Performance Analytics",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/performance-analytics/pa-bot/issues"
+  },
+  "homepage": "https://github.com/performance-analytics/pa-bot#readme",
+  "devDependencies": {
+    "@types/node": "^10.10.1"
+  },
+  "dependencies": {
+    "discord.js": "^11.4.2"
+  }
+}
