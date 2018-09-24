@@ -1,4 +1,8 @@
 #!/usr/bin/env python3
+# -*- coding: utf-8 -*-
+"""
+Entry point to bot.
+"""
 
 from discord.ext import commands
 from typing import Optional
