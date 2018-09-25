@@ -4,10 +4,11 @@
 Entry point to bot.
 """
 
-from discord.ext import commands
+
 from typing import Optional
 import math
 
+from discord.ext import commands
 from performance_utils.formulas import Formula, Brzycki, Epley, McGlothin
 from performance_utils.formulas import Lombardi, Mayhew, OConner, Wathan
 import performance_utils.datatypes as T
@@ -196,19 +197,19 @@ async def vfi(volume: float, inol: float):
 async def wilks(bodyweight: float, weight_lifted: float, kg: bool = True, male: bool = True):
 
     if male:
-        a = -216.0475144
-        b = 16.2606339
-        c = -0.002388645
-        d = -0.00113732
-        e = 7.01863e-06
-        f = -1.291e-08
+        terms = [-216.0475144,
+                 16.2606339,
+                 -0.002388645,
+                 -0.00113732,
+                 7.01863e-06,
+                 -1.291e-08]
     else:
-        a = 594.31747775582
-        b = -27.23842536447
-        c = 0.82112226871
-        d = -0.00930733913
-        e = 4.731582e-05
-        f = -9.054e-08
+        terms = [594.31747775582,
+                 -27.23842536447,
+                 0.82112226871,
+                 -0.00930733913,
+                 4.731582e-05,
+                 -9.054e-08]
 
     if not kg:
         unit = "lb"
@@ -218,14 +219,10 @@ async def wilks(bodyweight: float, weight_lifted: float, kg: bool = True, male: 
         unit = "kg"
 
     try:
-        coefficient = 500.0 / sum([
-            a,
-            b * bodyweight,
-            c * (bodyweight ** 2),
-            d * (bodyweight ** 3),
-            e * (bodyweight ** 4),
-            f * (bodyweight ** 5)
-        ])
+        new_terms = [term * (bodyweight ** power)
+                     for (power, term)
+                     in enumerate(terms)]
+        coefficient = 500.0 / sum(new_terms)
         result = coefficient * weight_lifted
         await say("Wilks ({0}): {1}".format(unit, result))
     except ZeroDivisionError:
