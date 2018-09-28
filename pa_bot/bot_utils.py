@@ -6,7 +6,10 @@ This module exposes utilities for miscellaneous tasks related to Discord.
 """
 
 
-def say(bot, message, code_formatting: bool = True, syntax_highlight: str = ""):
+def say(bot,
+        message,
+        code_formatting: bool = True,
+        syntax_highlight: str = ""):
 
     if code_formatting:
         to_send = "```{0}\n{1}\n```".format(syntax_highlight, message)

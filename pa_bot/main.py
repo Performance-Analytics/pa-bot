@@ -14,7 +14,7 @@ import commands as bot_commands
 
 
 # Add bot key here.
-bot_key: Optional[str] = "NDg4NDI0MDI2NTkxNTkyNDYx.Do_1SA.yrcfJ26WrX9PjgwTczsyKA6gMwI"
+bot_key: Optional[str] = None
 
 # Debug logging mode?
 debug: bool = False
