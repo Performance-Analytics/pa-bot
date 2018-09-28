@@ -16,7 +16,7 @@ import performance_utils.datatypes as T
 
 
 # Add bot key here.
-bot_key: Optional[str] = "NDg4NDI0MDI2NTkxNTkyNDYx.Doj55A.QwYmwchZk_dc1lhshYkX5m7IcME"
+bot_key: Optional[str] = None
 
 # Debug logging mode?
 debug: bool = False
