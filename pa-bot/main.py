@@ -16,13 +16,15 @@ import performance_utils.datatypes as T
 
 
 # Add bot key here.
-bot_key: Optional[str] = None
+bot_key: Optional[str] = "NDg4NDI0MDI2NTkxNTkyNDYx.Doj55A.QwYmwchZk_dc1lhshYkX5m7IcME"
 
-logger = logging.getLogger('discord')
-logger.setLevel(logging.DEBUG)
-handler = logging.FileHandler(filename='discord.log', encoding='utf-8', mode='w')
-handler.setFormatter(logging.Formatter('%(asctime)s:%(levelname)s:%(name)s: %(message)s'))
-logger.addHandler(handler)
+# Debug logging mode?
+debug: bool = True
+
+if debug:
+    logging.basicConfig(level=logging.DEBUG)
+else:
+    logging.basicConfig(level=logging.INFO)
 
 bot = commands.Bot(command_prefix=",", description="Performance Analytics bot")
 
