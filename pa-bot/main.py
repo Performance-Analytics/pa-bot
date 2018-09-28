@@ -119,19 +119,31 @@ async def inol(reps: T.Quantity, intensity: T.Intensity):
 
 
 @bot.command(description="""Convert imperial pounds (lb) to metric kilograms
-                            (kg).""")
-async def kg(lb: T.Load):
+                            (kg). If `rounding` is True, will round the result
+                            to the nearest hundredth.""")
+async def kg(lb: T.Load, rounding: bool = True):
 
     result = lb / 2.2046226218488
-    await say("{0:.2f}lb = {1:.2f}kg".format(lb, result))
+
+    if rounding:
+        result_text = "{0:.2f}lb = {1:.2f}kg"
+    else:
+        result_text = "{0}lb = {1}kg"
+    await say(result_text.format(lb, result))
 
 
 @bot.command(description="""Convert metric kilograms (kg) to imperial pounds
-                            (lb).""")
-async def lb(kg: T.Load):
+                            (lb). If `rounding` is True, will round the result
+                            to the nearest hundredth.""")
+async def lb(kg: T.Load, rounding: bool = True):
 
     result = kg * 2.2046226218488
-    await say("{0:.2f}kg = {1:.2f}lb".format(kg, result))
+
+    if rounding:
+        result_text = "{0:.2f}kg = {1:.2f}lb"
+    else:
+        result_text = "{0}kg = {1}lb"
+    await say(result_text.format(kg, result))
 
 
 @bot.command(description="""Link Dr. Steven Gundry's 'The Plant Paradox'
