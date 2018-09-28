@@ -97,6 +97,14 @@ async def calc(*instructions):
         await say("Error.")
 
 
+@bot.command(description="""Provides an invitation to the Performance Analytics
+                            discord server.""")
+async def contact():
+
+    result = "https://discord.gg/kZmsCrx"
+    await say(result, code_formatting=False)
+
+
 @bot.command(description="Show one-rep maximum formulas available.")
 async def formulas():
 
