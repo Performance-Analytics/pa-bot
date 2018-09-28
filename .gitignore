@@ -2,4 +2,3 @@
 .mypy_cache/
 .vscode/
 __pycache__/
-discord.log
