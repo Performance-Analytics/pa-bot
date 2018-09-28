@@ -118,29 +118,34 @@ async def inol(reps: T.Quantity, intensity: T.Intensity):
     await say("INOL: {0}".format(result))
 
 
-@bot.command(description="Convert imperial pounds (lb) to metric kilograms (kg).")
+@bot.command(description="""Convert imperial pounds (lb) to metric kilograms
+                            (kg).""")
 async def kg(lb: T.Load):
 
     result = lb / 2.2046226218488
     await say("{0:.2f}lb = {1:.2f}kg".format(lb, result))
 
 
-@bot.command(description="Convert metric kilograms (kg) to imperial pounds (lb).")
+@bot.command(description="""Convert metric kilograms (kg) to imperial pounds
+                            (lb).""")
 async def lb(kg: T.Load):
 
     result = kg * 2.2046226218488
     await say("{0:.2f}lb = {1:.2f}kg".format(kg, result))
 
 
-@bot.command(description="Link Dr. Steven Gundry's 'The Plant Paradox' Shopping List.")
+@bot.command(description="""Link Dr. Steven Gundry's 'The Plant Paradox'
+                            Shopping List.""")
 async def lectin_list():
 
-    await say("https://gundrymd.com/wp-content/pdf/Plant-Paradox-Shopping-LIst.pdf", code_formatting=False)
+    await say(
+        "https://gundrymd.com/wp-content/pdf/Plant-Paradox-Shopping-LIst.pdf",
+        code_formatting=False
+    )
 
 
-@bot.command(description="""
-    Calculate maximal repetition quantity from a supplied percentage intensity.
-""")
+@bot.command(description="""Calculate maximal repetition quantity from a
+                            supplied percentage intensity.""")
 async def max_reps(intensity: T.Intensity, formula: str = default_formula):
 
     try:
@@ -152,10 +157,8 @@ async def max_reps(intensity: T.Intensity, formula: str = default_formula):
         await say("Maximum Reps: {0} @ {1:.2%} [{1}]".format(result, intensity))
 
 
-@bot.command(description="""
-    Calculate one-rep maximum weight from supplied load used and quantity of
-    reps performed.
-""")
+@bot.command(description="""Calculate one-rep maximum weight from supplied load
+                            used and quantity of reps performed.""")
 async def one_rep_max(load: float, reps: int, formula: str = default_formula):
 
     try:
@@ -173,10 +176,9 @@ async def ping():
     await say("pong")
 
 
-@bot.command(description="""
-    Calculate maximal weight that can be moved for supplied quantity of reps by
-    a lifter with specified one-rep max.
-""")
+@bot.command(description="""Calculate maximal weight that can be moved for
+                            supplied quantity of reps by a lifter with
+                            specified one-rep max.""")
 async def rep_max(reps: int, max: float, formula: str = default_formula):
     
     try:
@@ -198,13 +200,17 @@ async def req(reps_performed: int, reps_possible: int):
 @bot.command(description="Get Performance Analytics resources.")
 async def resources():
 
-    await say("https://drive.google.com/open?id=1Mk_Wutq9e0dh0Srm1KrDT9aNFlfdd76G", code_formatting=False)
+    await say(
+        "https://drive.google.com/open?id=1Mk_Wutq9e0dh0Srm1KrDT9aNFlfdd76G",
+        code_formatting=False
+    )
 
 
 @bot.command(description="Link to bot source code.")
 async def source():
 
-    await say("https://github.com/performance-analytics/pa-bot", code_formatting=False)
+    await say("https://github.com/performance-analytics/pa-bot",
+               code_formatting=False)
 
 
 @bot.command(description="Calculate Volume-Fatigue Index.")
@@ -217,7 +223,10 @@ async def vfi(volume: float, inol: float):
 @bot.command(description="""
     Calculate Wilks score for supplied bodyweight and weight lifted.
 """)
-async def wilks(bodyweight: float, weight_lifted: float, kg: bool = True, male: bool = True):
+async def wilks(bodyweight: float,
+                weight_lifted: float,
+                kg: bool = True,
+                male: bool = True):
 
     if male:
         terms = [-216.0475144,
