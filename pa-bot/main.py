@@ -19,7 +19,7 @@ import performance_utils.datatypes as T
 bot_key: Optional[str] = "NDg4NDI0MDI2NTkxNTkyNDYx.Doj55A.QwYmwchZk_dc1lhshYkX5m7IcME"
 
 # Debug logging mode?
-debug: bool = True
+debug: bool = False
 
 if debug:
     logging.basicConfig(level=logging.DEBUG)
@@ -116,6 +116,20 @@ async def inol(reps: T.Quantity, intensity: T.Intensity):
 
     result = reps / ((1 - intensity) * 100)
     await say("INOL: {0}".format(result))
+
+
+@bot.command(description="Convert imperial pounds (lb) to metric kilograms (kg).")
+async def kg(lb: T.Load):
+
+    result = lb / 2.2046226218488
+    await say("{0:.2f}lb = {1:.2f}kg".format(lb, result))
+
+
+@bot.command(description="Convert metric kilograms (kg) to imperial pounds (lb).")
+async def lb(kg: T.Load):
+
+    result = kg * 2.2046226218488
+    await say("{0:.2f}lb = {1:.2f}kg".format(kg, result))
 
 
 @bot.command(description="Link Dr. Steven Gundry's 'The Plant Paradox' Shopping List.")
