@@ -152,8 +152,8 @@ def init(bot):
 
         await say(
             bot,
-            ("https://gundrymd.com/wp-content/pdf/Plant-Paradox-Shopping-LIst",
-             ".pdf"),
+            ("https://gundrymd.com/wp-content/pdf/Plant-Paradox-Shopping-LIst."
+             "pdf"),
             code_formatting=False
         )
 
@@ -223,8 +223,8 @@ def init(bot):
 
         await say(
             bot,
-            ("https://drive.google.com/open?id=1Mk_Wutq9e0dh0Srm1KrDT9aNFlfdd",
-             "76G"),
+            ("https://drive.google.com/open?id=1Mk_Wutq9e0dh0Srm1KrDT9aNFlfdd7"
+             "6G"),
             code_formatting=False
         )
 
