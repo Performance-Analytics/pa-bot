@@ -131,7 +131,7 @@ async def kg(lb: T.Load):
 async def lb(kg: T.Load):
 
     result = kg * 2.2046226218488
-    await say("{0:.2f}lb = {1:.2f}kg".format(kg, result))
+    await say("{0:.2f}kg = {1:.2f}lb".format(kg, result))
 
 
 @bot.command(description="""Link Dr. Steven Gundry's 'The Plant Paradox'
