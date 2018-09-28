@@ -40,6 +40,8 @@ def init(bot):
     @bot.command(description="Reverse Polish Notation calculator.")
     async def calc(*instructions):
 
+        formula_class: Formula = formula_dict[default_formula]
+
         try:
             stack = []
             for instruction in instructions:
@@ -71,6 +73,15 @@ def init(bot):
                     for element in stack:
                         result *= element
                     stack = [result]
+                elif instruction == "1rm":
+                    arg2, arg1 = stack.pop(), stack.pop()
+                    stack.append(formula_class.one_rep_max(arg2, arg1))
+                elif instruction == "maxreps":
+                    arg1 = stack.pop()
+                    stack.append(formula_class.reps(arg1))
+                elif instruction == "repmax":
+                    arg2, arg1 = stack.pop(), stack.pop()
+                    stack.append(formula_class.rep_max(arg1, arg2))
                 else:
                     stack.append(float(instruction))
             await say(bot, "Result: {0}".format(stack.pop()))
