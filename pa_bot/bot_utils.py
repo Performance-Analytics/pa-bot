@@ -9,11 +9,6 @@ This module exposes utilities for miscellaneous tasks related to Discord.
 from typing import List
 
 
-def render_table(table_list: List[List]) -> str:
-
-    return "\n".join([" | ".join(column) for column in table_list])
-
-
 def say(bot,
         message,
         code_formatting: bool = True,

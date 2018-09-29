@@ -3,6 +3,7 @@
 Bot command definitions.
 """
 
+from typing import Optional
 
 import math
 
@@ -10,7 +11,7 @@ from performance_utils.formulas import Formula, Brzycki, Epley, McGlothin
 from performance_utils.formulas import Lombardi, Mayhew, OConner, Wathan
 import performance_utils.datatypes as T
 
-from bot_utils import say 
+from bot_utils import say
 
 
 def init(bot):
@@ -130,6 +131,186 @@ def init(bot):
         else:
             result_text = "{0}lb = {1}kg"
         await say(bot, result_text.format(lb, result))
+
+
+    @bot.command(description="""Display volume landmarks suggested by Dr. Mike
+                                Israetel's Hypertrophy Guides alongside a link
+                                to the blog post.""")
+    async def landmarks(muscle: str = None):
+
+        muscle_groups = {
+            "Pectoralis": {
+                "MV": 8,
+                "MEV": 10,
+                "MAV Minimum": 12,
+                "MAV Maximum": 20,
+                "MRV": 22,
+                "Frequency Minimum": 1.5,
+                "Frequency Maximum": 3,
+                "Reps/Set Minimum": 8,
+                "Reps/Set Maximum": 12,
+                "Hypertrophy Guide": ("https://renaissanceperiodization.com/ch"
+                                      "est-training-tips-hypertrophy/")
+            },
+            "Tricep": {
+                "MV": 4,
+                "MEV": 6,
+                "MAV Minimum": 10,
+                "MAV Maximum": 14,
+                "MRV": 18,
+                "Frequency Minimum": 2,
+                "Frequency Maximum": 4,
+                "Reps/Set Minimum": 8,
+                "Reps/Set Maximum": 20,
+                "Hypertrophy Guide": ("https://renaissanceperiodization.com/tr"
+                                      "iceps-hypertrophy-training-tips/")
+            },
+            "Bicep": {
+                "MV": 5,
+                "MEV": 8,
+                "MAV Minimum": 14,
+                "MAV Maximum": 20,
+                "MRV": 26,
+                "Frequency Minimum": 2,
+                "Frequency Maximum": 6,
+                "Reps/Set Minimum": 8,
+                "Reps/Set Maximum": 15,
+                "Hypertrophy Guide": ("https://renaissanceperiodization.com/bi"
+                                      "cep-training-tips-hypertrophy/")
+            },
+            "Deltoid - Anterior": {
+                "MV": 0,
+                "MEV": 0,
+                "MAV Minimum": 6,
+                "MAV Maximum": 8,
+                "MRV": 12,
+                "Frequency Minimum": 2,
+                "Frequency Maximum": 6,
+                "Reps/Set Minimum": 10,
+                "Reps/Set Maximum": 20,
+                "Hypertrophy Guide": ("https://renaissanceperiodization.com/fr"
+                                      "ont-delt-training-tips-hypertrophy/")
+            },
+            "Deltoid - Medial/Posterior": {
+                "MV": 0,
+                "MEV": 8,
+                "MAV Minimum": 16,
+                "MAV Maximum": 22,
+                "MRV": 26,
+                "Frequency Minimum": 2,
+                "Frequency Maximum": 6,
+                "Reps/Set Minimum": 10,
+                "Reps/Set Maximum": 20,
+                "Hypertrophy Guide": ("https://renaissanceperiodization.com/re"
+                                      "arside-delt-tips-hypertrophy/")
+            },
+            "Trapezius": {
+                "MV": 0,
+                "MEV": 0,
+                "MAV Minimum": 12,
+                "MAV Maximum": 20,
+                "MRV": 26,
+                "Frequency Minimum": 2,
+                "Frequency Maximum": 6,
+                "Reps/Set Minimum": 10,
+                "Reps/Set Maximum": 20,
+                "Hypertrophy Guide": ("https://renaissanceperiodization.com/tr"
+                                      "ap-training-tips-hypertrophy/")
+            },
+            "Back": {
+                "MV": 8,
+                "MEV": 10,
+                "MAV Minimum": 14,
+                "MAV Maximum": 22,
+                "MRV": 25,
+                "Frequency Minimum": 2,
+                "Frequency Maximum": 4,
+                "Reps/Set Minimum": 6,
+                "Reps/Set Maximum": 20,
+                "Hypertrophy Guide": ("https://renaissanceperiodization.com/ba"
+                                      "ck-training-tips-hypertrophy/")
+            },
+            "Quadricep": {
+                "MV": 6,
+                "MEV": 8,
+                "MAV Minimum": 12,
+                "MAV Maximum": 18,
+                "MRV": 20,
+                "Frequency Minimum": 1.5,
+                "Frequency Maximum": 3,
+                "Reps/Set Minimum": 8,
+                "Reps/Set Maximum": 15,
+                "Hypertrophy Guide": ("https://renaissanceperiodization.com/qu"
+                                      "ad-training-tips-hypertrophy/")
+            },
+            "Hamstring": {
+                "MV": 4,
+                "MEV": 6,
+                "MAV Minimum": 10,
+                "MAV Maximum": 16,
+                "MRV": 20,
+                "Frequency Minimum": 2,
+                "Frequency Maximum": 3,
+                "Reps/Set Minimum": 5,
+                "Reps/Set Maximum": 15,
+                "Hypertrophy Guide": ("https://renaissanceperiodization.com/ha"
+                                      "mstring-training-tips-hyprtrophy/")
+            },
+            "Gluteus": {
+                "MV": 0,
+                "MEV": 0,
+                "MAV Minimum": 4,
+                "MAV Maximum": 12,
+                "MRV": 16,
+                "Frequency Minimum": 2,
+                "Frequency Maximum": 3,
+                "Reps/Set Minimum": 8,
+                "Reps/Set Maximum": 12,
+                "Hypertrophy Guide": ("https://renaissanceperiodization.com/gl"
+                                      "ute-training-tips-hypertrophy/")
+            },
+            "Calf": {
+                "MV": 6,
+                "MEV": 8,
+                "MAV Minimum": 12,
+                "MAV Maximum": 16,
+                "MRV": 20,
+                "Frequency Minimum": 2,
+                "Frequency Maximum": 4,
+                "Reps/Set Minimum": 8,
+                "Reps/Set Maximum": 15,
+                "Hypertrophy Guide": ("https://renaissanceperiodization.com/ca"
+                                      "lves-training-tips-hypertrophy/")
+            },
+            "Abdominals": {
+                "MV": 0,
+                "MEV": 0,
+                "MAV Minimum": 16,
+                "MAV Maximum": 20,
+                "MRV": 25,
+                "Frequency Minimum": 3,
+                "Frequency Maximum": 5,
+                "Reps/Set Minimum": 8,
+                "Reps/Set Maximum": 20,
+                "Hypertrophy Guide": ("https://renaissanceperiodization.com/ab"
+                                      "-training/")
+            }
+        }
+
+        if muscle is None:
+            result = ("https://renaissanceperiodization.com/training-volume-la"
+                      "ndmarks-muscle-growth/\n"
+                      "https://renaissanceperiodization.com/hypertrophy-traini"
+                      "ng-guide-central-hub/\n\n"
+                      "Select from the following muscle groups:\n\n- {0}"
+                      ).format("\n- ".join([muscle_group for muscle_group in
+                                            muscle_groups]))
+        else:
+            result = "# {0}\n".format(muscle)
+            muscle_group = muscle_groups[muscle]
+            for item in muscle_group:
+                result += "\n- {0}: {1}".format(item, muscle_group[item])
+        await say(bot, result, syntax_highlight="markdown")
 
 
     @bot.command(description="""Convert metric kilograms (kg) to imperial
