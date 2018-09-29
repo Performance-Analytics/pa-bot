@@ -11,7 +11,7 @@ from performance_utils.formulas import Formula, Brzycki, Epley, McGlothin
 from performance_utils.formulas import Lombardi, Mayhew, OConner, Wathan
 import performance_utils.datatypes as T
 
-from bot_utils import say
+from bot_utils import pendular_apply, say
 
 
 def init(bot):
@@ -46,7 +46,10 @@ def init(bot):
         try:
             stack = []
             for instruction in instructions:
-                if instruction == "+":
+                if instruction.startswith("math."):
+                    fn = getattr(math, instruction[5:])
+                    stack.append(pendular_apply(fn, *stack))
+                elif instruction == "+":
                     arg2, arg1 = stack.pop(), stack.pop()
                     stack.append(arg1 + arg2)
                 elif instruction == "-":
@@ -67,6 +70,8 @@ def init(bot):
                 elif instruction == "abs":
                     arg1 = stack.pop()
                     stack.append(abs(arg1))
+                elif instruction == "del":
+                    stack.pop()
                 elif instruction == "sum":
                     stack = [sum(stack)]
                 elif instruction == "product":
