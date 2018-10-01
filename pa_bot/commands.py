@@ -48,7 +48,7 @@ def init(bot):
             for instruction in instructions:
                 if instruction.startswith("math."):
                     fn = getattr(math, instruction[5:])
-                    stack.append(pendular_apply(fn, *stack))
+                    stack.append(pendular_apply(fn, *reversed(stack)))
                 elif instruction == "+":
                     arg2, arg1 = stack.pop(), stack.pop()
                     stack.append(arg1 + arg2)
