@@ -539,7 +539,7 @@ def init(bot):
     async def pstd(ctx,
                    fatigue_rating: str,
                    training_max: float,
-                   training_cycle_name="default"):
+                   training_cycle_name: str="default"):
         
         trainee = ctx.message.author.id
         iterator = pstdpickling.load_state(trainee, training_cycle_name)
@@ -557,6 +557,61 @@ def init(bot):
         await say(bot, "Volume: {}\nLoad: {}".format(volume_notation,
                                                      session.load))
         
+
+    @bot.command(pass_context=True,
+                 description="""Creates a custom configuration for a Procedural
+                                Strength Training Director training cycle. Note
+                                that this will overwrite any existing training
+                                cycle with a new one, so be careful not to lose
+                                important data.""")
+    async def pstdconfig(ctx,
+                         training_cycle_name: str,
+                         reps_per_set: int=pstdsessions.default_config[
+                             "reps per set"
+                         ],
+                         inol_target_small: float=pstdsessions.default_config[
+                             "inol targets"
+                         ]["small"],
+                         inol_target_medium: float=pstdsessions.default_config[
+                             "inol targets"
+                         ]["medium"],
+                         inol_target_large: float=pstdsessions.default_config[
+                             "inol targets"
+                         ]["large"],
+                         intensity_target_small: float=pstdsessions.default_config[
+                             "intensity targets"
+                         ]["small"],
+                         intensity_target_medium: float=pstdsessions.default_config[
+                             "intensity targets"
+                         ]["medium"],
+                         intensity_target_large: float=pstdsessions.default_config[
+                             "intensity targets"
+                         ]["large"],
+                         supramaximal_inol_increment: float=pstdsessions.default_config[
+                             "supramaximal inol increment"
+                         ]):
+    
+        trainee = ctx.message.author.id
+        config = {
+            "reps per set": reps_per_set,
+            "inol targets": {
+                "small": inol_target_small,
+                "medium": inol_target_medium,
+                "large": inol_target_large
+            },
+            "intensity targets": {
+                "small": intensity_target_small,
+                "medium": intensity_target_medium,
+                "large": intensity_target_large
+            },
+            "supramaximal inol increment": supramaximal_inol_increment
+        }
+        iterator = pstdsessions.SessionBuilderCallbackIterator(config)
+        pstdpickling.save_state(iterator, trainee, training_cycle_name)
+        await say(bot, "Training cycle {} configured.".format(
+            training_cycle_name
+        ))
+
 
     @bot.command(pass_context=True,
                  description="""Deletes a Procedural Strength Training Director
