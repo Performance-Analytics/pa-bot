@@ -12,6 +12,8 @@ from performance_utils.formulas import Lombardi, Mayhew, OConner, Wathan
 import performance_utils.datatypes as T
 
 from bot_utils import pendular_apply, say
+import pstd.pstd.pickling as pstdpickling
+import pstd.pstd.sessions as pstdsessions
 
 
 def init(bot):
@@ -520,6 +522,30 @@ def init(bot):
     async def ping():
 
         await say(bot, "pong")
+
+
+    @bot.command(pass_context=True,
+                 description="Procedural Strength Training Director.")
+    async def pstd(ctx,
+                   fatigue_rating: str,
+                   training_max: float):
+        
+        trainee = ctx.message.author.id
+        training_cycle_name = "pa-bot pstd training cycle"
+        iterator = pstdpickling.load_state(trainee, training_cycle_name)
+        if iterator is None:
+            iterator = pstdsessions.SessionBuilderCallbackIterator(
+                pstdsessions.default_config
+            )
+        session_builder = next(iterator)
+        session = session_builder(fatigue_rating, training_max)
+        pstdpickling.save_state(iterator, trainee, training_cycle_name)
+        volume_notation = "{}x{}".format(int(session.sets),
+                                         int(session.reps_per_set))
+        if session.extra_reps > 0:
+            volume_notation += ", {}".format(session.extra_reps)
+        await say(bot, "Volume: {}\nLoad: {}".format(volume_notation,
+                                                     session.load))
 
 
     @bot.command(description="""Calculate maximal weight that can be moved for
