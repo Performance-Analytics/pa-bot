@@ -90,6 +90,9 @@ def init(bot):
                 elif instruction == "repmax":
                     arg2, arg1 = stack.pop(), stack.pop()
                     stack.append(formula_class.rep_max(arg1, arg2))
+                elif instruction == "inol":
+                    arg2, arg1 = stack.pop(), stack.pop()
+                    stack.append(arg1 / ((1 - arg2) * 100))
                 else:
                     stack.append(float(instruction))
             await say(bot, "Result: {0}".format(stack.pop()))
