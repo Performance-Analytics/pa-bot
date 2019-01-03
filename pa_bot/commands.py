@@ -528,13 +528,19 @@ def init(bot):
 
 
     @bot.command(pass_context=True,
-                 description="Procedural Strength Training Director.")
+                 description="""Procedural Strength Training Director. Fatigue
+                                rating can be "low", "medium", or "high".
+                                Training maxes are RPE 8 singles done before
+                                the training session. Each training cycle
+                                consists of only 1 exercise, so if you are
+                                training multiple exercises you will need to
+                                use a unique training cycle name for each.""")
     async def pstd(ctx,
                    fatigue_rating: str,
-                   training_max: float):
+                   training_max: float,
+                   training_cycle_name="default"):
         
         trainee = ctx.message.author.id
-        training_cycle_name = "pa-bot pstd training cycle"
         iterator = pstdpickling.load_state(trainee, training_cycle_name)
         if iterator is None:
             iterator = pstdsessions.SessionBuilderCallbackIterator(
