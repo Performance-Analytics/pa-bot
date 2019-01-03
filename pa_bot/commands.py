@@ -6,6 +6,7 @@ Bot command definitions.
 from typing import Optional
 
 import math
+import os
 
 from performance_utils.formulas import Formula, Brzycki, Epley, McGlothin
 from performance_utils.formulas import Lombardi, Mayhew, OConner, Wathan
@@ -555,6 +556,20 @@ def init(bot):
             volume_notation += ", {}".format(session.extra_reps)
         await say(bot, "Volume: {}\nLoad: {}".format(volume_notation,
                                                      session.load))
+        
+
+    @bot.command(pass_context=True,
+                 description="""Deletes a Procedural Strength Training Director
+                                training cycle. Take care when using this that
+                                you do not delete any important information, as
+                                it cannot be recovered afterward.""")
+    async def pstdremove(ctx,
+                         training_cycle_name="default"):
+
+        trainee = ctx.message.author.id
+        pickle_filename = "{}{}.pickle".format(trainee, training_cycle_name)
+        os.remove(pickle_filename)
+        await say(bot, "Removed pickle {}".format(pickle_filename))
 
 
     @bot.command(description="""Calculate maximal weight that can be moved for
