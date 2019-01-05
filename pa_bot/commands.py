@@ -271,6 +271,12 @@ def init(bot):
         await say(bot, "INOL: {0}".format(result))
 
 
+    @bot.command(description="Display invite link for bot.")
+    async def invite():
+
+        await say(bot, "https://discordapp.com/oauth2/authorize?client_id=488424026591592461")
+
+
     @bot.command(description="""Convert imperial pounds (lb) to metric
                                 kilograms (kg). If `rounding` is True, will
                                 round the result to the nearest hundredth.""")
