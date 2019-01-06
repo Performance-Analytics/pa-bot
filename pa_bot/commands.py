@@ -5,9 +5,7 @@ Bot command definitions.
 
 from typing import Optional
 
-import math
-import pprint
-import os
+import math, os, pprint
 
 from performance_utils.formulas import Formula, Brzycki, Epley, McGlothin
 from performance_utils.formulas import Lombardi, Mayhew, OConner, Wathan
