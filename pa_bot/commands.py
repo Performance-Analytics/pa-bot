@@ -615,7 +615,7 @@ def init(bot):
                       syntax_highlight="markdown")
 
         # Query for details about a configuration.
-        if reps_per_set_small is None: # Only `training_cycle_name` is supplied.
+        elif reps_per_set_small is None: # Only `training_cycle_name` is supplied.
             iterator = pstdpickling.load_state(trainee, training_cycle_name)
             if iterator is None:
                 await say(bot, "Training cycle does not exist.")
