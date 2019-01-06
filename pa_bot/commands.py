@@ -578,7 +578,9 @@ def init(bot):
                                 displayed.""")
     async def pstdconfig(ctx,
                          training_cycle_name: str,
-                         reps_per_set: int=None,
+                         reps_per_set_small: int=None,
+                         reps_per_set_medium: int=None,
+                         reps_per_set_large: int=None,
                          inol_target_small: float=None,
                          inol_target_medium: float=None,
                          inol_target_large: float=None,
@@ -590,7 +592,9 @@ def init(bot):
         trainee = ctx.message.author.id
 
         # Query for details about a configuration.
-        if (reps_per_set is None and
+        if (reps_per_set_small is None and
+            reps_per_set_medium is None and
+            reps_per_set_large is None and
             inol_target_small is None and
             inol_target_medium is None and
             inol_target_large is None and
@@ -607,8 +611,18 @@ def init(bot):
                 await say(bot, pprint.pformat(config))
         
         else: # Create a new configuration.
-            if reps_per_set is None:
-                reps_per_set = pstdsessions.default_config["reps per set"]
+            if reps_per_set_small is None:
+                reps_per_set_small = pstdsessions.default_config[
+                    "reps per set"
+                ]["small"]
+            if reps_per_set_medium is None:
+                reps_per_set_medium = pstdsessions.default_config[
+                    "reps per set"
+                ]["medium"]
+            if reps_per_set_large is None:
+                reps_per_set_large = pstdsessions.default_config[
+                    "reps per set"
+                ]["large"]
             if inol_target_small is None:
                 inol_target_small = pstdsessions.default_config[
                     "inol targets"
@@ -639,7 +653,11 @@ def init(bot):
                 ]
 
             config = {
-                "reps per set": reps_per_set,
+                "reps per set": {
+                    "small": reps_per_set_small,
+                    "medium": reps_per_set_medium,
+                    "large": reps_per_set_large
+                },
                 "inol targets": {
                     "small": inol_target_small,
                     "medium": inol_target_medium,
