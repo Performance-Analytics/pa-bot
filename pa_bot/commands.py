@@ -14,8 +14,9 @@ from performance_utils.formulas import Lombardi, Mayhew, OConner, Wathan
 import performance_utils.datatypes as T
 
 from bot_utils import pendular_apply, say
-import pstd.pstd.pickling as pstdpickling
-import pstd.pstd.sessions as pstdsessions
+import pstd.exceptions as pstdexceptions
+import pstd.pickling as pstdpickling
+import pstd.sessions as pstdsessions
 
 
 def init(bot):
@@ -555,14 +556,18 @@ def init(bot):
                 pstdsessions.default_config
             )
         session_builder = next(iterator)
-        session = session_builder(fatigue_rating, training_max)
-        pstdpickling.save_state(iterator, trainee, training_cycle_name)
-        volume_notation = "{}x{}".format(int(session.sets),
-                                         int(session.reps_per_set))
-        if session.extra_reps > 0:
-            volume_notation += ", {}".format(session.extra_reps)
-        await say(bot, "Volume: {}\nLoad: {}".format(volume_notation,
-                                                     session.load))
+        try:
+            session = session_builder(fatigue_rating, training_max)
+        except pstdexceptions.InvalidFatigueRatingException as e:
+            await say(bot, "Invalid fatigue rating `{}`.".format(e))
+        else:
+            pstdpickling.save_state(iterator, trainee, training_cycle_name)
+            volume_notation = "{}x{}".format(int(session.sets),
+                                            int(session.reps_per_set))
+            if session.extra_reps > 0:
+                volume_notation += ", {}".format(session.extra_reps)
+            await say(bot, "Volume: {}\nLoad: {}".format(volume_notation,
+                                                        session.load))
         
 
     @bot.command(pass_context=True,
@@ -686,7 +691,11 @@ def init(bot):
                          training_cycle_name="default"):
 
         trainee = ctx.message.author.id
-        pickle_filename = "{}{}.pickle".format(trainee, training_cycle_name)
+        pickle_filename = "{}/{}{}.pickle".format(
+            pstdpickling.storage_path,
+            trainee,
+            training_cycle_name
+        )
         os.remove(pickle_filename)
         await say(bot, "Removed pickle {}".format(pickle_filename))
 
