@@ -580,7 +580,7 @@ def init(bot):
                                 requested training cycle configuration will be
                                 displayed.""")
     async def pstdconfig(ctx,
-                         training_cycle_name: str,
+                         training_cycle_name: str=None,
                          reps_per_set_small: int=None,
                          reps_per_set_medium: int=None,
                          reps_per_set_large: int=None,
@@ -593,6 +593,26 @@ def init(bot):
                          supramaximal_inol_increment: float=None):
     
         trainee = ctx.message.author.id
+
+        # Query for all training cycle names.
+        if training_cycle_name is None:
+            try:
+                # TODO: Move this try/except block's functionality to the
+                # `pstd.pickling` module in the `pstd` package.
+                training_cycles = os.listdir(pstdpickling.storage_path)
+            except FileNotFoundError: # Storage path does not exist.
+                training_cycles = []
+            trainee_cycles = [
+                "> {}".format(training_cycle[len(trainee):-len(".pickle")]) for
+                training_cycle in
+                training_cycles if
+                training_cycle.startswith(trainee)
+            ]
+            await say(bot,
+                      "# Training Cycles:\n{}".format(
+                          "\n".join(trainee_cycles)
+                      ),
+                      syntax_highlight="markdown")
 
         # Query for details about a configuration.
         if reps_per_set_small is None: # Only `training_cycle_name` is supplied.
