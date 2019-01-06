@@ -6,6 +6,7 @@ Bot command definitions.
 from typing import Optional
 
 import math
+import pprint
 import os
 
 from performance_utils.formulas import Formula, Brzycki, Epley, McGlothin
@@ -565,58 +566,97 @@ def init(bot):
         
 
     @bot.command(pass_context=True,
-                 description="""Creates a custom configuration for a Procedural
+                 description="""Create a custom configuration for a Procedural
                                 Strength Training Director training cycle. Note
                                 that this will overwrite any existing training
                                 cycle with a new one, so be careful not to lose
-                                important data.""")
+                                important data.
+                                
+                                If no parameters are specified in addition to
+                                training cycle name, information about the
+                                requested training cycle configuration will be
+                                displayed.""")
     async def pstdconfig(ctx,
                          training_cycle_name: str,
-                         reps_per_set: int=pstdsessions.default_config[
-                             "reps per set"
-                         ],
-                         inol_target_small: float=pstdsessions.default_config[
-                             "inol targets"
-                         ]["small"],
-                         inol_target_medium: float=pstdsessions.default_config[
-                             "inol targets"
-                         ]["medium"],
-                         inol_target_large: float=pstdsessions.default_config[
-                             "inol targets"
-                         ]["large"],
-                         intensity_target_small: float=pstdsessions.default_config[
-                             "intensity targets"
-                         ]["small"],
-                         intensity_target_medium: float=pstdsessions.default_config[
-                             "intensity targets"
-                         ]["medium"],
-                         intensity_target_large: float=pstdsessions.default_config[
-                             "intensity targets"
-                         ]["large"],
-                         supramaximal_inol_increment: float=pstdsessions.default_config[
-                             "supramaximal inol increment"
-                         ]):
+                         reps_per_set: int=None,
+                         inol_target_small: float=None,
+                         inol_target_medium: float=None,
+                         inol_target_large: float=None,
+                         intensity_target_small: float=None,
+                         intensity_target_medium: float=None,
+                         intensity_target_large: float=None,
+                         supramaximal_inol_increment: float=None):
     
         trainee = ctx.message.author.id
-        config = {
-            "reps per set": reps_per_set,
-            "inol targets": {
-                "small": inol_target_small,
-                "medium": inol_target_medium,
-                "large": inol_target_large
-            },
-            "intensity targets": {
-                "small": intensity_target_small,
-                "medium": intensity_target_medium,
-                "large": intensity_target_large
-            },
-            "supramaximal inol increment": supramaximal_inol_increment
-        }
-        iterator = pstdsessions.SessionBuilderCallbackIterator(config)
-        pstdpickling.save_state(iterator, trainee, training_cycle_name)
-        await say(bot, "Training cycle {} configured.".format(
-            training_cycle_name
-        ))
+
+        # Query for details about a configuration.
+        if (reps_per_set is None and
+            inol_target_small is None and
+            inol_target_medium is None and
+            inol_target_large is None and
+            intensity_target_small is None and
+            intensity_target_medium is None and
+            intensity_target_large is None and
+            supramaximal_inol_increment is None):
+
+            iterator = pstdpickling.load_state(trainee, training_cycle_name)
+            if iterator is None:
+                await say(bot, "Training cycle does not exist.")
+            else:
+                config = iterator.config
+                await say(bot, pprint.pformat(config))
+        
+        else: # Create a new configuration.
+            if reps_per_set is None:
+                reps_per_set = pstdsessions.default_config["reps per set"]
+            if inol_target_small is None:
+                inol_target_small = pstdsessions.default_config[
+                    "inol targets"
+                ]["small"]
+            if inol_target_medium is None:
+                inol_target_medium = pstdsessions.default_config[
+                    "inol targets"
+                ]["medium"]
+            if inol_target_large is None:
+                inol_target_large = pstdsessions.default_config[
+                    "inol targets"
+                ]["large"]
+            if intensity_target_small is None:
+                intensity_target_small = pstdsessions.default_config[
+                    "intensity targets"
+                ]["small"]
+            if intensity_target_medium is None:
+                intensity_target_medium = pstdsessions.default_config[
+                    "intensity targets"
+                ]["medium"]
+            if intensity_target_large is None:
+                intensity_target_large = pstdsessions.default_config[
+                    "intensity targets"
+                ]["large"]
+            if supramaximal_inol_increment is None:
+                supramaximal_inol_increment = pstdsessions.default_config[
+                    "supramaximal inol increment"
+                ]
+
+            config = {
+                "reps per set": reps_per_set,
+                "inol targets": {
+                    "small": inol_target_small,
+                    "medium": inol_target_medium,
+                    "large": inol_target_large
+                },
+                "intensity targets": {
+                    "small": intensity_target_small,
+                    "medium": intensity_target_medium,
+                    "large": intensity_target_large
+                },
+                "supramaximal inol increment": supramaximal_inol_increment
+            }
+            iterator = pstdsessions.SessionBuilderCallbackIterator(config)
+            pstdpickling.save_state(iterator, trainee, training_cycle_name)
+            await say(bot, "Training cycle {} configured.".format(
+                training_cycle_name
+            ))
 
 
     @bot.command(pass_context=True,
