@@ -595,17 +595,7 @@ def init(bot):
         trainee = ctx.message.author.id
 
         # Query for details about a configuration.
-        if (reps_per_set_small is None and
-            reps_per_set_medium is None and
-            reps_per_set_large is None and
-            inol_target_small is None and
-            inol_target_medium is None and
-            inol_target_large is None and
-            intensity_target_small is None and
-            intensity_target_medium is None and
-            intensity_target_large is None and
-            supramaximal_inol_increment is None):
-
+        if reps_per_set_small is None: # Only `training_cycle_name` is supplied.
             iterator = pstdpickling.load_state(trainee, training_cycle_name)
             if iterator is None:
                 await say(bot, "Training cycle does not exist.")
