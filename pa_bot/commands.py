@@ -575,10 +575,12 @@ def init(bot):
                                 cycle with a new one, so be careful not to lose
                                 important data.
                                 
-                                If no parameters are specified in addition to
-                                training cycle name, information about the
-                                requested training cycle configuration will be
-                                displayed.""")
+                                If no parameters are specified, a list of all
+                                training cycle names will be shown.
+
+                                If only the training cycle name is specified,
+                                information about the requested training cycle
+                                configuration will be displayed.""")
     async def pstdconfig(ctx,
                          training_cycle_name: str=None,
                          reps_per_set_small: int=None,
