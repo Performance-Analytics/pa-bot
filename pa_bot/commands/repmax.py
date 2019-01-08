@@ -79,9 +79,9 @@ def init(bot, defaults):
             await say(bot, "Formula name invalid.")
         else:
             result = "\n".join([
-                "{}RM: {}".format(reps,
-                                  round(formula_class.rep_max(reps, max))) for
+                "{:>2}RM: {:.2f}".format(reps,
+                                  formula_class.rep_max(reps, max)) for
                 reps in
-                range(11)
+                range(1, 11)
             ])
             await say(bot, result)
