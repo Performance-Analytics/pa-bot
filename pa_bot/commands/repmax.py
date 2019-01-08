@@ -64,3 +64,24 @@ def init(bot, defaults):
         else:
             result = formula_class.rep_max(reps, max)
             await say(bot, "{0} Repetition Maximum: {1}".format(reps, result))
+
+
+    @bot.command(description="""Calculate maximal weight that can be moved for
+                                each quantity of reps between 1 and 10
+                                (inclusive) by a lifter with specified one-rep
+                                max.""")
+    async def rep_maxes(max: float,
+                        formula: str = defaults["default_formula"]):
+        
+        try:
+            formula_class: Formula = defaults["formula_dict"][formula]
+        except KeyError:
+            await say(bot, "Formula name invalid.")
+        else:
+            result = "\n".join([
+                "{}RM: {}".format(reps,
+                                  round(formula_class.rep_max(reps, max))) for
+                reps in
+                range(11)
+            ])
+            await say(bot, result)
