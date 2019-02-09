@@ -11,7 +11,7 @@ import performance_utils.datatypes as T
 
 from bot_utils import pendular_apply, say
 
-import commands.conversion, commands.links, commands.parameters, commands.pstd
+import commands.conversion, commands.links, commands.parameters
 import commands.reference, commands.repmax, commands.util
 
 
