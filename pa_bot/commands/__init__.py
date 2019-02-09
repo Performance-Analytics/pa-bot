@@ -41,7 +41,6 @@ def init(bot):
     for module in [commands.conversion,
                    commands.links,
                    commands.parameters,
-                   commands.pstd,
                    commands.reference,
                    commands.repmax,
                    commands.util]:
