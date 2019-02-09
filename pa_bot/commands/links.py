@@ -10,7 +10,7 @@ def init(bot, defaults):
                                 Analytics discord server.""")
     async def contact():
 
-        result = "https://discord.gg/kZmsCrx"
+        result = "https://discord.gg/mJw8U4a"
         await say(bot, result, code_formatting=False)
     
 
